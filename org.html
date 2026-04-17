@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Organization</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div id="page"></div>
+
+<script src="data.js"></script>
+
+<script>
+const id = new URLSearchParams(window.location.search).get("id");
+const org = orgData.find(o => o.id === id);
+
+const percent = Math.round((org.raised / org.goal) * 100);
+
+document.getElementById("page").innerHTML = `
+  <h1>${org.name}</h1>
+  <h3>${org.city}, ${org.country}</h3>
+
+  <p>${org.description}</p>
+
+  <div style="width:60%; margin:auto; background:#222; border-radius:10px;">
+    <div style="width:${percent}%; height:18px; background:linear-gradient(90deg,#ff3b3b,#ffb347);"></div>
+  </div>
+
+  <p>${percent}% funded</p>
+
+  <h2>$${org.raised.toLocaleString()} raised of $${org.goal.toLocaleString()}</h2>
+
+  <button onclick="window.location.href='${org.stripeLink}'">
+    Donate with Stripe
+  </button>
+
+  <button onclick="history.back()">
+    Back
+  </button>
+`;
+</script>
+
+</body>
+</html>
